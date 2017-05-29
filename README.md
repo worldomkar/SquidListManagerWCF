@@ -1,6 +1,8 @@
 # SquidListManagerWCF
 Domain List manager for squid for windows. Uses two isolated components.
-(For those who haven't been familiar with squid - it is a proxy server, you can get it from ![Download Squid](http://wiki.squid-cache.org/SquidFaq/BinaryPackages) here.)
+For those who haven't been familiar with squid - it is a proxy server, you can get it from
+[here.](http://wiki.squid-cache.org/SquidFaq/BinaryPackages)
+
 1. Windows Service hosted WCF microservice,
 2. Desktop client.
 
