@@ -23,7 +23,7 @@ namespace Squid_Monitor
         DomainListController dlc = new DomainListController();
         void LoadList(string listName, string listType)
         {
-            TreeNode tnNewRoot = dlc.LoadList(listName, listType, tn, BlockTrust, BlockIgnore, tnNewDomains);
+            TreeNode tnNewRoot = dlc.LoadList(listName, listType, tn, ref BlockTrust, ref BlockIgnore, ref tnNewDomains);
             treeView1.Invoke(new Add(treeView1.Nodes.Add), tnNewRoot);
         }
 

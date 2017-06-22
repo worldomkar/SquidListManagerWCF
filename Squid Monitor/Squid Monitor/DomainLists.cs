@@ -65,7 +65,7 @@ namespace Squid_Monitor
             return null;
         }
 
-        public TreeNode LoadList(string listName, string listType, List<TreeNode> tn, TreeNode BlockTrust, TreeNode BlockIgnore, TreeNode NewDomains)
+        public TreeNode LoadList(string listName, string listType, List<TreeNode> tn, ref TreeNode BlockTrust, ref TreeNode BlockIgnore, ref TreeNode NewDomains)
         {
             SquidManager.DList dl = null;
             switch (listType.ToLower())
