@@ -1,4 +1,6 @@
-﻿namespace Squid_Monitor
+﻿using System;
+
+namespace Squid_Monitor
 {
     partial class SquidMonitor
     {
@@ -42,6 +44,7 @@
             // 
             this.treeView1.Location = new System.Drawing.Point(12, 27);
             this.treeView1.Name = "treeView1";
+            this.treeView1.AllowDrop = true;
             this.treeView1.Size = new System.Drawing.Size(491, 666);
             this.treeView1.TabIndex = 0;
             this.treeView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView1_ItemDrag);
@@ -88,11 +91,16 @@
             // 
             // txtSearchBox
             // 
+            this.txtSearchBox.Text = phText;
+            searchBoxTextColor = this.txtSearchBox.ForeColor;
+            this.txtSearchBox.ForeColor = System.Drawing.Color.Gray;
             this.txtSearchBox.Location = new System.Drawing.Point(336, 4);
             this.txtSearchBox.Name = "txtSearchBox";
             this.txtSearchBox.Size = new System.Drawing.Size(141, 20);
             this.txtSearchBox.TabIndex = 2;
             this.txtSearchBox.TextChanged += new System.EventHandler(this.txtSearchBox_TextChanged);
+            this.txtSearchBox.GotFocus += new System.EventHandler(this.txtSearchBox_GotFocus);
+            this.txtSearchBox.LostFocus += new System.EventHandler(this.txtSearchBox_LostFocus);
             this.txtSearchBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSearchBox_KeyPress);
             // 
             // btnClearSearch

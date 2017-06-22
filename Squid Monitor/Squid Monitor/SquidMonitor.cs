@@ -8,101 +8,26 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Squid_Monitor.SquidManager;
 using System.Diagnostics;
 
 namespace Squid_Monitor
 {
     public partial class SquidMonitor : Form
     {
-        SquidManager.SqMgrClient sm = new SquidManager.SqMgrClient();//("ISqMgr", "http://localhost:8733/Design_Time_Addresses/sqmgr_wcf_svc/Service1/");
         public SquidMonitor()
         {
             InitializeComponent();
         }
-
+        
         public delegate int Add(TreeNode tn);
-
-        private TreeNode ConstructTreeFromDlist(SquidManager.DList dl)
-        {
-            if (null != dl)
-            {
-                TreeNode tnNewRoot = new TreeNode();
-                tnNewRoot.Expand();
-                if (0 == dl.Sections.Length)
-                {
-                    dl.Sections = new Section[1];
-                    Section s = dl.Sections[0] = new Section();
-                    s.Name = "Global";
-                    s.ActiveDomain = new string[0];
-                    s.InactiveDomain = new string[0];
-                }
-                foreach (SquidManager.Section s in dl.Sections)
-                {
-                    TreeNode tnSection = new TreeNode(s.Name);
-                    TreeNode tnActive = new TreeNode("Active");
-                    TreeNode tnInactive = new TreeNode("Inactive");
-                    foreach (string domain in s.ActiveDomain)
-                    {
-                        TreeNode dmn = new TreeNode(domain);
-                        tnActive.Nodes.Add(dmn);
-                        tn.Add(dmn);
-                    }
-                    foreach (string domain in s.InactiveDomain)
-                    {
-                        TreeNode dmn = new TreeNode(domain);
-                        tnInactive.Nodes.Add(dmn);
-                        tn.Add(dmn);
-                    }
-                    tnSection.Nodes.Add(tnActive);
-                    tnSection.Nodes.Add(tnInactive);
-                    tnNewRoot.Nodes.Add(tnSection);
-                }
-                return tnNewRoot;
-            }
-            return null;
-        }
-
-        TreeNode tnNewDomains = null;
+        DomainListController dlc = new DomainListController();
         void LoadList(string listName, string listType)
         {
-            SquidManager.DList dl = null;
-            switch (listType.ToLower())
-            {
-                case "trust":
-                    dl = sm.GetTrustList();
-                    break;
-                case "block":
-                    dl = sm.GetBlockList();
-                    break;
-                case "new":
-                    dl = sm.GetNewDomains();
-                    break;
-            }
-            TreeNode tnNewRoot = ConstructTreeFromDlist(dl);
-            switch (listType.ToLower())
-            {
-                case "trust":
-                    tnNewRoot.Nodes[19].Expand();
-                    break;
-                case "block":
-                    tnNewRoot.Nodes[0].Expand();
-                    BlockIgnore = tnNewRoot.Nodes[0].Nodes[1];
-                    break;
-                case "new":
-                    if (0 < tnNewRoot.Nodes.Count)
-                    {
-                        tnNewRoot.Nodes[0].Expand();
-                        tnNewRoot.Nodes[0].Nodes[1].Expand();
-                    }
-                    tnNewDomains = tnNewRoot;
-                    break;
-            }
-            tnNewRoot.Text = listName;
+            TreeNode tnNewRoot = dlc.LoadList(listName, listType, tn, BlockTrust, BlockIgnore, tnNewDomains);
             treeView1.Invoke(new Add(treeView1.Nodes.Add), tnNewRoot);
         }
 
-        void LoadData()
+        void LoadLists()
         {
             LoadList("Trusted Domains", "trust");
             LoadList("Blocked Domains", "block");
@@ -112,9 +37,8 @@ namespace Squid_Monitor
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Thread loader = new Thread(LoadData);
+            Thread loader = new Thread(LoadLists);
             loader.Start();
-            treeView1.AllowDrop = true;
         }
 
         private void treeView1_ItemDrag(object sender, ItemDragEventArgs e)
@@ -125,11 +49,9 @@ namespace Squid_Monitor
                 DoDragDrop(e.Item, DragDropEffects.Move | DragDropEffects.Scroll);
             }
         }
-
-        static int i = 0;
+        
         private void treeView1_DragDrop(object sender, DragEventArgs e)
         {
-            Console.WriteLine("In DragDrop");
             if (e.Data.GetDataPresent("System.Windows.Forms.TreeNode", false))
             {
                 Point pt = ((TreeView)sender).PointToClient(new Point(e.X, e.Y));
@@ -143,10 +65,10 @@ namespace Squid_Monitor
                     switch (Section.Parent.Parent.Text.ToLower())
                     {
                         case "trusted domains":
-                            sm.AddNewDomain(Domain.Text, "trust", Section.Parent.Text, Section.Text);
+                            dlc.AddNewDomain(Domain.Text, "trust", Section.Parent.Text, Section.Text);
                             break;
                         case "blocked domains":
-                            sm.AddNewDomain(Domain.Text, "block", Section.Parent.Text, Section.Text);
+                            dlc.AddNewDomain(Domain.Text, "block", Section.Parent.Text, Section.Text);
                             break;
                     }
                     Domain.Parent.Nodes.Remove(Domain);
@@ -157,14 +79,11 @@ namespace Squid_Monitor
 
         private void treeView1_DragEnter(object sender, DragEventArgs e)
         {
-            Console.WriteLine("In DragEnter");
             e.Effect = DragDropEffects.Move | DragDropEffects.Scroll;
         }
 
         private void treeView1_DragOver(object sender, DragEventArgs e)
         {
-            i++;
-            Console.WriteLine("In DragOver" + i);
             if (e.Data.GetDataPresent("System.Windows.Forms.TreeNode", false))
             {
                 Point pt = ((TreeView)sender).PointToClient(new Point(e.X, e.Y));
@@ -191,15 +110,14 @@ namespace Squid_Monitor
 
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            sm.ReloadLists();
+            dlc.ReloadLists();
         }
 
         private void reloadNewDomains ()
         {
             try
             {
-                SquidManager.DList dl = sm.GetNewDomains();
-                TreeNode tnNewDomains = ConstructTreeFromDlist(dl);
+                TreeNode tnNewDomains = dlc.GetNewDomains(tn);
                 tnNewDomains.Text = "New Domains";
                 tnNewDomains.Nodes[0].Expand();
                 tnNewDomains.Nodes[0].Nodes[1].Expand();
@@ -222,6 +140,8 @@ namespace Squid_Monitor
             reloadNewDomains();
         }
 
+        TreeNode tnNewDomains = null;
+
         private void ignoreAllNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if ((null != tnNewDomains) && (null != tnNewDomains.Nodes[0]) &&
@@ -231,7 +151,7 @@ namespace Squid_Monitor
                 for (int i = 0; i < iNodes; ++i)
                 {
                     TreeNode n = tnNewDomains.Nodes[0].Nodes[1].Nodes[i];
-                    sm.AddNewDomain (n.Text, "block", "Global", "inactive");
+                    dlc.AddNewDomain (n.Text, "block", "Global", "inactive");
                 }
                 for (int i = 0; i < iNodes; ++i)
                 {
@@ -262,6 +182,7 @@ namespace Squid_Monitor
         }
 
         private TreeNode BlockIgnore = null;
+        private TreeNode BlockTrust = null;
         private bool loadCompleted = false;
         private void SquidMonitor_Activated(object sender, EventArgs e)
         {
@@ -309,20 +230,79 @@ namespace Squid_Monitor
                 focusedNode = 0;
         }
 
-        private void treeView1_KeyUp(object sender, KeyEventArgs e)
+        private void selectPreviousSearchedNode ()
         {
-            if (e.KeyCode == Keys.F3)
+            -- focusedNode;
+            if (focusedNode < 0)
             {
-                if (e.Shift)
-                {
-                    focusedNode -= 2;
-                    if (focusedNode < 0)
-                        focusedNode += searchList.Count;
-                    if (focusedNode < 0)
-                        focusedNode = 0;
-                }
-                selectNextSearchedNode();
+                focusedNode += searchList.Count;
             }
         }
+        private bool isDomainNode (TreeNode tNode)
+        {
+            if ((null != treeView1.SelectedNode) && (null != treeView1.SelectedNode.Parent) &&
+                        (null != treeView1.SelectedNode.Parent.Parent))
+                return true;
+            return false;
+        }
+
+        private void treeView1_KeyUp(object sender, KeyEventArgs e)
+        {
+            TreeNode tnSelected = treeView1.SelectedNode;
+            bool addSubtractProcess = false;
+            string listType = null, sectionName = null, activeInactive = null;
+            switch (e.KeyCode)
+            {
+                case Keys.F3:
+                    if (e.Shift)
+                        selectPreviousSearchedNode();
+                    else
+                        selectNextSearchedNode();
+                    break;
+                case Keys.Add:
+                    listType = "trust";
+                    sectionName = "Miscelleneous";
+                    activeInactive = "active";
+                    addSubtractProcess = true;
+                    break;
+                case Keys.Subtract:
+                    listType = "block";
+                    sectionName = "Global";
+                    activeInactive = "inactive";
+                    addSubtractProcess = true;
+                    break;
+            }
+            if ((addSubtractProcess) && isDomainNode(tnSelected))
+            {
+                TreeNode next = (null != tnSelected.NextNode)? tnSelected.NextNode:
+                    ((null != tnSelected.PrevNode)? tnSelected.PrevNode : tnSelected.Parent);
+                dlc.AddNewDomain(tnSelected.Text, listType, sectionName, activeInactive);
+                tnSelected.Parent.Nodes.Remove(tnSelected);
+                BlockTrust.Nodes.Add(tnSelected);
+                treeView1.SelectedNode = next;
+            }
+        }
+
+#region Placeholder text logic for domain search textbox
+        Color searchBoxTextColor = Color.Black;
+        string phText = "Search domain";
+        private void txtSearchBox_GotFocus(object sender, EventArgs e)
+        {
+            if (txtSearchBox.Text == phText)
+            {
+                txtSearchBox.Text = "";
+                txtSearchBox.ForeColor = searchBoxTextColor;
+            }
+        }
+
+        private void txtSearchBox_LostFocus(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtSearchBox.Text))
+            {
+                txtSearchBox.ForeColor = Color.Gray;
+                txtSearchBox.Text = phText;
+            }
+        }
+#endregion
     }
 }
