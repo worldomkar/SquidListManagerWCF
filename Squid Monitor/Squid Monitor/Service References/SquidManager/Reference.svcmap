@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="36b25caf-fad0-44aa-8364-4656c32d7fb9" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://127.0.0.1:5656/squid_manager/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="df8a8e0e-412e-4d38-aac7-b31278ce5284" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="1a7fef74-f7e1-4bdd-a0b6-9d2860155869" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="25aece71-80cd-41ab-b268-36363f7cbe29" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager/mex" />
+    <MetadataFile FileName="sqmgr_wcf_svc.xsd" MetadataType="Schema" ID="f8a352c6-0d4b-4dc8-8af6-021a7b37cc54" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="8a453e95-51ce-4d97-83b6-d44a359680fe" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
