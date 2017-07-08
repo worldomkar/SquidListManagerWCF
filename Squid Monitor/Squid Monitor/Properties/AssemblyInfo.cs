@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Squid Monitor")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Squid Monitor manages squid domain lists through Squid Manager service")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Squid Monitor")]

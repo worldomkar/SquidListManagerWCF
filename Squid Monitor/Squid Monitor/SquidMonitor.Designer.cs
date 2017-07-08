@@ -1,13 +1,29 @@
-﻿using System;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="SquidMonitor.Designer.cs" company="_">
+// Squid_Monitor
+// </copyright>
+// <author>Omkar Patekar</author>
+//-----------------------------------------------------------------------
 namespace Squid_Monitor
 {
-    partial class SquidMonitor
+    using System;
+
+    /// <summary>
+    /// SquidMonitor class is primary dialog derived from "Form"
+    /// </summary>
+    public partial class SquidMonitor
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reloadNewDomainsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ignoreAllNewToolStripMenuItem;
+        private System.Windows.Forms.TextBox txtSearchBox;
+        private System.Windows.Forms.Button btnClearSearch;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -15,10 +31,11 @@ namespace Squid_Monitor
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing && (this.components != null))
             {
-                components.Dispose();
+                this.components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
@@ -30,6 +47,7 @@ namespace Squid_Monitor
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SquidMonitor));
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,16 +60,16 @@ namespace Squid_Monitor
             // 
             // treeView1
             // 
+            this.treeView1.AllowDrop = true;
             this.treeView1.Location = new System.Drawing.Point(12, 27);
             this.treeView1.Name = "treeView1";
-            this.treeView1.AllowDrop = true;
             this.treeView1.Size = new System.Drawing.Size(491, 666);
             this.treeView1.TabIndex = 0;
-            this.treeView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView1_ItemDrag);
-            this.treeView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeView1_DragDrop);
-            this.treeView1.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeView1_DragEnter);
-            this.treeView1.DragOver += new System.Windows.Forms.DragEventHandler(this.treeView1_DragOver);
-            this.treeView1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.treeView1_KeyUp);
+            this.treeView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.TreeView1_ItemDrag);
+            this.treeView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.TreeView1_DragDrop);
+            this.treeView1.DragEnter += new System.Windows.Forms.DragEventHandler(this.TreeView1_DragEnter);
+            this.treeView1.DragOver += new System.Windows.Forms.DragEventHandler(this.TreeView1_DragOver);
+            this.treeView1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TreeView1_KeyUp);
             // 
             // menuStrip1
             // 
@@ -71,7 +89,7 @@ namespace Squid_Monitor
             this.reloadToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
             this.reloadToolStripMenuItem.Text = "Reload Squid";
             this.reloadToolStripMenuItem.ToolTipText = "Ask Squid service to reload trust and block list files and re-configure.";
-            this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
+            this.reloadToolStripMenuItem.Click += new System.EventHandler(this.ReloadToolStripMenuItem_Click);
             // 
             // reloadNewDomainsToolStripMenuItem
             // 
@@ -79,7 +97,7 @@ namespace Squid_Monitor
             this.reloadNewDomainsToolStripMenuItem.Size = new System.Drawing.Size(141, 20);
             this.reloadNewDomainsToolStripMenuItem.Text = "Re-query NewDomains";
             this.reloadNewDomainsToolStripMenuItem.ToolTipText = "Get a list of un-categorized domains from SquidManager WCF service.";
-            this.reloadNewDomainsToolStripMenuItem.Click += new System.EventHandler(this.reloadNewDomainsToolStripMenuItem_Click);
+            this.reloadNewDomainsToolStripMenuItem.Click += new System.EventHandler(this.ReloadNewDomainsToolStripMenuItem_Click);
             // 
             // ignoreAllNewToolStripMenuItem
             // 
@@ -87,21 +105,19 @@ namespace Squid_Monitor
             this.ignoreAllNewToolStripMenuItem.Size = new System.Drawing.Size(95, 20);
             this.ignoreAllNewToolStripMenuItem.Text = "Ignore all New";
             this.ignoreAllNewToolStripMenuItem.ToolTipText = "Move all new domains to ignore list (Blocked list->Global->Inactive)";
-            this.ignoreAllNewToolStripMenuItem.Click += new System.EventHandler(this.ignoreAllNewToolStripMenuItem_Click);
+            this.ignoreAllNewToolStripMenuItem.Click += new System.EventHandler(this.IgnoreAllNewToolStripMenuItem_Click);
             // 
             // txtSearchBox
             // 
-            this.txtSearchBox.Text = phText;
-            searchBoxTextColor = this.txtSearchBox.ForeColor;
             this.txtSearchBox.ForeColor = System.Drawing.Color.Gray;
             this.txtSearchBox.Location = new System.Drawing.Point(336, 4);
             this.txtSearchBox.Name = "txtSearchBox";
             this.txtSearchBox.Size = new System.Drawing.Size(141, 20);
             this.txtSearchBox.TabIndex = 2;
-            this.txtSearchBox.TextChanged += new System.EventHandler(this.txtSearchBox_TextChanged);
-            this.txtSearchBox.GotFocus += new System.EventHandler(this.txtSearchBox_GotFocus);
-            this.txtSearchBox.LostFocus += new System.EventHandler(this.txtSearchBox_LostFocus);
-            this.txtSearchBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSearchBox_KeyPress);
+            this.txtSearchBox.TextChanged += new System.EventHandler(this.TxtSearchBox_TextChanged);
+            this.txtSearchBox.GotFocus += new System.EventHandler(this.TxtSearchBox_GotFocus);
+            this.txtSearchBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtSearchBox_KeyPress);
+            this.txtSearchBox.LostFocus += new System.EventHandler(this.TxtSearchBox_LostFocus);
             // 
             // btnClearSearch
             // 
@@ -111,7 +127,7 @@ namespace Squid_Monitor
             this.btnClearSearch.TabIndex = 3;
             this.btnClearSearch.Text = "X";
             this.btnClearSearch.UseVisualStyleBackColor = true;
-            this.btnClearSearch.Click += new System.EventHandler(this.btnClearSearch_Click);
+            this.btnClearSearch.Click += new System.EventHandler(this.BtnClearSearch_Click);
             // 
             // SquidMonitor
             // 
@@ -122,6 +138,7 @@ namespace Squid_Monitor
             this.Controls.Add(this.txtSearchBox);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "SquidMonitor";
             this.Text = "Squid Manager - Live";
@@ -136,14 +153,5 @@ namespace Squid_Monitor
         }
 
         #endregion
-
-        private System.Windows.Forms.TreeView treeView1;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem reloadNewDomainsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ignoreAllNewToolStripMenuItem;
-        private System.Windows.Forms.TextBox txtSearchBox;
-        private System.Windows.Forms.Button btnClearSearch;
     }
 }
-

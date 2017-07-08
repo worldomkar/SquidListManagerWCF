@@ -197,6 +197,10 @@ namespace Squid_Monitor.SquidManager {
                 base(binding, remoteAddress) {
         }
         
+        /// <summary>
+        /// Calls GetNewDomains web API
+        /// </summary>
+        /// <returns></returns>
         public Squid_Monitor.SquidManager.DList GetNewDomains() {
             return base.Channel.GetNewDomains();
         }
