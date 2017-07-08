@@ -145,6 +145,7 @@ namespace Squid_Monitor
             this.Activated += new System.EventHandler(this.SquidMonitor_Activated);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResizeEnd += new System.EventHandler(this.Form1_ResizeEnd);
+            this.Resize += new System.EventHandler(this.Form1_ResizeEnd);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);

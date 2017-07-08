@@ -160,10 +160,7 @@ namespace Squid_Monitor
                 Point pt = ((TreeView)sender).PointToClient(new Point(e.X, e.Y));
                 TreeNode section = ((TreeView)sender).GetNodeAt(pt);
                 TreeNode domain = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
-                if ((section != null) &&
-                    (section != domain) &&
-                    (section.Parent != null) &&
-                    (section.Parent.Parent != null))
+                if ((section != domain) && IsSectionNode(section))
                 {
                     switch (section.Parent.Parent.Text.ToLower())
                     {
@@ -220,11 +217,20 @@ namespace Squid_Monitor
         /// <summary>
         /// Form resize -- resize treeview
         /// </summary>
+        private void ResizeTreeView()
+        {
+            treeView1.Height = this.ClientRectangle.Height - this.menuStrip1.Height - 16;
+            treeView1.Width = this.Width - 40;
+        }
+        
+        /// <summary>
+        /// Form resize -- call resize treeview
+        /// </summary>
         /// <param name="sender">object sender</param>
         /// <param name="e">eventargs e</param>
         private void Form1_ResizeEnd(object sender, EventArgs e)
         {
-            treeView1.Height = SquidMonitor.ActiveForm.Height - 80;
+            this.ResizeTreeView();
         }
 
         /// <summary>
@@ -290,10 +296,9 @@ namespace Squid_Monitor
             {
                 TreeNodeCollection blockNewNodes = this.blockNew.Nodes[0].Nodes[1].Nodes;
                 int newNodesCount = blockNewNodes.Count;
-                int i;
-                for (i = 0; i < newNodesCount; ++i)
+                for (; newNodesCount > 0; --newNodesCount)
                 {
-                    TreeNode node = blockNewNodes[i];
+                    TreeNode node = blockNewNodes[0];
                     this.dlc.AddNewDomain(node.Text, "block", "Global", "inactive");
                     node.Parent.Nodes.Remove(node);
                     this.blockIgnore.Nodes.Add(node);
