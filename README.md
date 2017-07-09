@@ -6,6 +6,7 @@ For those who haven't been familiar with squid - it is a proxy server, you can g
 1. Windows Service hosted WCF microservice,
 2. Desktop client.
 
+
 **_Squid configuration:_**
 ```text
 acl allowed_https_access dstdomain "c:/squid/etc/trusted-sites.txt"
@@ -20,6 +21,7 @@ I've just finished testing basic functionality, documentation will follow.
 Best Regards,
 Omkar.
 
+
 **_Installation:_**
 From administrative (possibly developer) command prompt,
 1. Install the service
@@ -31,11 +33,14 @@ installutil "SquidListManagerWCF/Squid Manager/SquidManager_Host/bin/Release/Squ
 netsh http add urlacl url=http://127.0.0.1:5656/ sddl="D:(A;;GX;;;LS)" listen=yes
 ```
 3. Allow the program (to listen on 127.0.0.1:5656) if blocked for local access by a firewall
+
 done!
+
 
 **_Use:_**
 1. Start SquidManager service from "View local services" (or Service Manager)
 2. Launch SquidMonitor desktop application
+
 
 **_Screenshots:_**
 Squid Manager WCF service hosted inside windows service host
