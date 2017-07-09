@@ -4,12 +4,6 @@
 // </copyright>
 // <author>Omkar Patekar</author>
 //-----------------------------------------------------------------------
-//-----------------------------------------------------------------------
-// <copyright file="ISquidManager.cs" company="_">
-// ISquidManager
-// </copyright>
-// <author>Omkar Patekar</author>
-//-----------------------------------------------------------------------
 namespace SquidManager
 {
     using System.ServiceModel;
