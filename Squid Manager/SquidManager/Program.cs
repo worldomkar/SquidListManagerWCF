@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="Program.cs" company="_">
+// Program
+// </copyright>
+// <author>Omkar Patekar</author>
+//-----------------------------------------------------------------------
 namespace SquidManager
 {
-    static class Program
+    /// <summary>
+    /// SquidManager entry point class
+    /// </summary>
+    public class Program
     {
         /// <summary>
-        /// The main entry point for the application.
+        /// SquidManager entry point
         /// </summary>
-        static void Main()
+        /// <param name="args">Currently ignored command line arguments</param>
+        public static void Main(string[] args)
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[] 
-            { 
-                new SQWinService() 
-            };
-            ServiceBase.Run(ServicesToRun);
+            SquidManager sm = new SquidManager();
         }
     }
 }
