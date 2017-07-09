@@ -26,7 +26,7 @@ From administrative (possibly developer) command prompt,
 ```text
 installutil "SquidListManagerWCF/Squid Manager/SquidManager_Host/bin/Release/SquidManager_Host.exe"
 ```
-2. [If required] Grant access to reserve URL
+2. Grant access to reserve URL
 ```text
 netsh http add urlacl url=http://127.0.0.1:5656/ sddl="D:(A;;GX;;;LS)" listen=yes
 ```
