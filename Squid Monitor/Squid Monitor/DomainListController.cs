@@ -8,14 +8,6 @@ namespace Squid_Monitor
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Data;
-    using System.Diagnostics;
-    using System.Drawing;
-    using System.Linq;
-    using System.Text;
-    using System.Threading;
-    using System.Threading.Tasks;
     using System.Windows.Forms;
     using SquidManager;
 
@@ -28,7 +20,7 @@ namespace Squid_Monitor
         /// <summary>
         /// Client of WCF service
         /// </summary>
-        private SqMgrClient sm = null;
+        private SquidManagerClient squidManager = null;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="DomainListController"/> class
@@ -37,7 +29,7 @@ namespace Squid_Monitor
         {
             try
             {
-                this.sm = new SquidManager.SqMgrClient();
+                this.squidManager = new SquidManager.SquidManagerClient();
             }
             catch (Exception)
             {
@@ -56,17 +48,17 @@ namespace Squid_Monitor
         /// <returns>Returns root node of created TreeNode list</returns>
         public TreeNode LoadList(string listName, string listType, List<TreeNode> knownDomains, ref TreeNode blockTrust, ref TreeNode blockIgnore, ref TreeNode newDomains)
         {
-            SquidManager.DList domainsList = null;
+            SquidManager.DomainsList domainsList = null;
             switch (listType.ToLower())
             {
                 case "trust":
-                    domainsList = this.sm.GetTrustList();
+                    domainsList = this.squidManager.GetTrustList();
                     break;
                 case "block":
-                    domainsList = this.sm.GetBlockList();
+                    domainsList = this.squidManager.GetBlockList();
                     break;
                 case "new":
-                    domainsList = this.sm.GetNewDomains();
+                    domainsList = this.squidManager.GetNewDomains();
                     break;
             }
 
@@ -119,7 +111,7 @@ namespace Squid_Monitor
         /// </summary>
         public void ReloadLists()
         {
-            this.sm.ReloadLists();
+            this.squidManager.ReloadLists();
         }
 
         /// <summary>
@@ -131,7 +123,7 @@ namespace Squid_Monitor
         /// <returns>TreeNode hierarchy of new domains</returns>
         public TreeNode GetNewDomains(List<TreeNode> knownDomains)
         {
-            return this.ConstructTreeFromDlist(this.sm.GetNewDomains(), knownDomains);
+            return this.ConstructTreeFromDlist(this.squidManager.GetNewDomains(), knownDomains);
         }
 
         /// <summary>
@@ -143,7 +135,7 @@ namespace Squid_Monitor
         /// <param name="activeInactive">Domain entry in the list should be active or inactive</param>
         public void AddNewDomain(string domain, string listType, string sectionName, string activeInactive)
         {
-            this.sm.AddNewDomain(domain, listType, sectionName, activeInactive);
+            this.squidManager.AddNewDomain(domain, listType, sectionName, activeInactive);
         }
 
         /// <summary>
@@ -152,22 +144,22 @@ namespace Squid_Monitor
         /// <param name="domainsList">List of domains</param>
         /// <param name="knownDomains">"Loaded list" of domains</param>
         /// <returns>TreeNode hierarchy containing domains list</returns>
-        private TreeNode ConstructTreeFromDlist(SquidManager.DList domainsList, List<TreeNode> knownDomains)
+        private TreeNode ConstructTreeFromDlist(SquidManager.DomainsList domainsList, List<TreeNode> knownDomains)
         {
             if (domainsList != null)
             {
                 TreeNode newRoot = new TreeNode();
                 newRoot.Expand();
-                if (domainsList.Sections.Length == 0)
+                if (domainsList.sections.Length == 0)
                 {
-                    domainsList.Sections = new Section[1];
-                    Section s = domainsList.Sections[0] = new Section();
+                    domainsList.sections = new Section[1];
+                    Section s = domainsList.sections[0] = new Section();
                     s.Name = "Global";
                     s.ActiveDomain = new string[0];
                     s.InactiveDomain = new string[0];
                 }
 
-                foreach (SquidManager.Section s in domainsList.Sections)
+                foreach (SquidManager.Section s in domainsList.sections)
                 {
                     TreeNode section = new TreeNode(s.Name);
                     if ((s.Name == "Miscelleneous") || (s.Name == "Global"))

@@ -15,15 +15,15 @@ namespace Squid_Monitor.SquidManager {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="DList", Namespace="http://schemas.datacontract.org/2004/07/sqmgr_wcf_svc")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DomainsList", Namespace="http://schemas.datacontract.org/2004/07/SquidManager")]
     [System.SerializableAttribute()]
-    public partial class DList : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class DomainsList : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private Squid_Monitor.SquidManager.Section[] SectionsField;
+        private Squid_Monitor.SquidManager.Section[] sectionsField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -36,14 +36,14 @@ namespace Squid_Monitor.SquidManager {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public Squid_Monitor.SquidManager.Section[] Sections {
+        public Squid_Monitor.SquidManager.Section[] sections {
             get {
-                return this.SectionsField;
+                return this.sectionsField;
             }
             set {
-                if ((object.ReferenceEquals(this.SectionsField, value) != true)) {
-                    this.SectionsField = value;
-                    this.RaisePropertyChanged("Sections");
+                if ((object.ReferenceEquals(this.sectionsField, value) != true)) {
+                    this.sectionsField = value;
+                    this.RaisePropertyChanged("sections");
                 }
             }
         }
@@ -60,7 +60,7 @@ namespace Squid_Monitor.SquidManager {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Section", Namespace="http://schemas.datacontract.org/2004/07/sqmgr_wcf_svc")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Section", Namespace="http://schemas.datacontract.org/2004/07/SquidManager")]
     [System.SerializableAttribute()]
     public partial class Section : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -136,76 +136,72 @@ namespace Squid_Monitor.SquidManager {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SquidManager.ISqMgr")]
-    public interface ISqMgr {
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SquidManager.ISquidManager")]
+    public interface ISquidManager {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISqMgr/GetNewDomains", ReplyAction="http://tempuri.org/ISqMgr/GetNewDomainsResponse")]
-        Squid_Monitor.SquidManager.DList GetNewDomains();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISquidManager/GetNewDomains", ReplyAction="http://tempuri.org/ISquidManager/GetNewDomainsResponse")]
+        Squid_Monitor.SquidManager.DomainsList GetNewDomains();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISqMgr/GetNewDomains", ReplyAction="http://tempuri.org/ISqMgr/GetNewDomainsResponse")]
-        System.Threading.Tasks.Task<Squid_Monitor.SquidManager.DList> GetNewDomainsAsync();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISquidManager/GetNewDomains", ReplyAction="http://tempuri.org/ISquidManager/GetNewDomainsResponse")]
+        System.Threading.Tasks.Task<Squid_Monitor.SquidManager.DomainsList> GetNewDomainsAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISqMgr/AddNewDomain", ReplyAction="http://tempuri.org/ISqMgr/AddNewDomainResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISquidManager/AddNewDomain", ReplyAction="http://tempuri.org/ISquidManager/AddNewDomainResponse")]
         void AddNewDomain(string domain, string listType, string sectionName, string activeInactive);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISqMgr/AddNewDomain", ReplyAction="http://tempuri.org/ISqMgr/AddNewDomainResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISquidManager/AddNewDomain", ReplyAction="http://tempuri.org/ISquidManager/AddNewDomainResponse")]
         System.Threading.Tasks.Task AddNewDomainAsync(string domain, string listType, string sectionName, string activeInactive);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISqMgr/GetTrustList", ReplyAction="http://tempuri.org/ISqMgr/GetTrustListResponse")]
-        Squid_Monitor.SquidManager.DList GetTrustList();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISquidManager/GetTrustList", ReplyAction="http://tempuri.org/ISquidManager/GetTrustListResponse")]
+        Squid_Monitor.SquidManager.DomainsList GetTrustList();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISqMgr/GetTrustList", ReplyAction="http://tempuri.org/ISqMgr/GetTrustListResponse")]
-        System.Threading.Tasks.Task<Squid_Monitor.SquidManager.DList> GetTrustListAsync();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISquidManager/GetTrustList", ReplyAction="http://tempuri.org/ISquidManager/GetTrustListResponse")]
+        System.Threading.Tasks.Task<Squid_Monitor.SquidManager.DomainsList> GetTrustListAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISqMgr/GetBlockList", ReplyAction="http://tempuri.org/ISqMgr/GetBlockListResponse")]
-        Squid_Monitor.SquidManager.DList GetBlockList();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISquidManager/GetBlockList", ReplyAction="http://tempuri.org/ISquidManager/GetBlockListResponse")]
+        Squid_Monitor.SquidManager.DomainsList GetBlockList();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISqMgr/GetBlockList", ReplyAction="http://tempuri.org/ISqMgr/GetBlockListResponse")]
-        System.Threading.Tasks.Task<Squid_Monitor.SquidManager.DList> GetBlockListAsync();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISquidManager/GetBlockList", ReplyAction="http://tempuri.org/ISquidManager/GetBlockListResponse")]
+        System.Threading.Tasks.Task<Squid_Monitor.SquidManager.DomainsList> GetBlockListAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISqMgr/ReloadLists", ReplyAction="http://tempuri.org/ISqMgr/ReloadListsResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISquidManager/ReloadLists", ReplyAction="http://tempuri.org/ISquidManager/ReloadListsResponse")]
         void ReloadLists();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISqMgr/ReloadLists", ReplyAction="http://tempuri.org/ISqMgr/ReloadListsResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISquidManager/ReloadLists", ReplyAction="http://tempuri.org/ISquidManager/ReloadListsResponse")]
         System.Threading.Tasks.Task ReloadListsAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface ISqMgrChannel : Squid_Monitor.SquidManager.ISqMgr, System.ServiceModel.IClientChannel {
+    public interface ISquidManagerChannel : Squid_Monitor.SquidManager.ISquidManager, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class SqMgrClient : System.ServiceModel.ClientBase<Squid_Monitor.SquidManager.ISqMgr>, Squid_Monitor.SquidManager.ISqMgr {
+    public partial class SquidManagerClient : System.ServiceModel.ClientBase<Squid_Monitor.SquidManager.ISquidManager>, Squid_Monitor.SquidManager.ISquidManager {
         
-        public SqMgrClient() {
+        public SquidManagerClient() {
         }
         
-        public SqMgrClient(string endpointConfigurationName) : 
+        public SquidManagerClient(string endpointConfigurationName) : 
                 base(endpointConfigurationName) {
         }
         
-        public SqMgrClient(string endpointConfigurationName, string remoteAddress) : 
+        public SquidManagerClient(string endpointConfigurationName, string remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public SqMgrClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public SquidManagerClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public SqMgrClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public SquidManagerClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
         }
         
-        /// <summary>
-        /// Calls GetNewDomains web API
-        /// </summary>
-        /// <returns></returns>
-        public Squid_Monitor.SquidManager.DList GetNewDomains() {
+        public Squid_Monitor.SquidManager.DomainsList GetNewDomains() {
             return base.Channel.GetNewDomains();
         }
         
-        public System.Threading.Tasks.Task<Squid_Monitor.SquidManager.DList> GetNewDomainsAsync() {
+        public System.Threading.Tasks.Task<Squid_Monitor.SquidManager.DomainsList> GetNewDomainsAsync() {
             return base.Channel.GetNewDomainsAsync();
         }
         
@@ -217,19 +213,19 @@ namespace Squid_Monitor.SquidManager {
             return base.Channel.AddNewDomainAsync(domain, listType, sectionName, activeInactive);
         }
         
-        public Squid_Monitor.SquidManager.DList GetTrustList() {
+        public Squid_Monitor.SquidManager.DomainsList GetTrustList() {
             return base.Channel.GetTrustList();
         }
         
-        public System.Threading.Tasks.Task<Squid_Monitor.SquidManager.DList> GetTrustListAsync() {
+        public System.Threading.Tasks.Task<Squid_Monitor.SquidManager.DomainsList> GetTrustListAsync() {
             return base.Channel.GetTrustListAsync();
         }
         
-        public Squid_Monitor.SquidManager.DList GetBlockList() {
+        public Squid_Monitor.SquidManager.DomainsList GetBlockList() {
             return base.Channel.GetBlockList();
         }
         
-        public System.Threading.Tasks.Task<Squid_Monitor.SquidManager.DList> GetBlockListAsync() {
+        public System.Threading.Tasks.Task<Squid_Monitor.SquidManager.DomainsList> GetBlockListAsync() {
             return base.Channel.GetBlockListAsync();
         }
         

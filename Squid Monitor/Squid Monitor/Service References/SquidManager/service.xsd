@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import namespace="http://schemas.datacontract.org/2004/07/sqmgr_wcf_svc" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/SquidManager" />
   <xs:element name="GetNewDomains">
     <xs:complexType>
       <xs:sequence />
@@ -9,7 +9,7 @@
   <xs:element name="GetNewDomainsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/sqmgr_wcf_svc" minOccurs="0" name="GetNewDomainsResult" nillable="true" type="q1:DList" />
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/SquidManager" minOccurs="0" name="GetNewDomainsResult" nillable="true" type="q1:DomainsList" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -36,7 +36,7 @@
   <xs:element name="GetTrustListResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/sqmgr_wcf_svc" minOccurs="0" name="GetTrustListResult" nillable="true" type="q2:DList" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/SquidManager" minOccurs="0" name="GetTrustListResult" nillable="true" type="q2:DomainsList" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -48,7 +48,7 @@
   <xs:element name="GetBlockListResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/sqmgr_wcf_svc" minOccurs="0" name="GetBlockListResult" nillable="true" type="q3:DList" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/SquidManager" minOccurs="0" name="GetBlockListResult" nillable="true" type="q3:DomainsList" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

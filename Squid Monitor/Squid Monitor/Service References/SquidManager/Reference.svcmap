@@ -25,7 +25,7 @@
     <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="df8a8e0e-412e-4d38-aac7-b31278ce5284" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager/mex" />
     <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="1a7fef74-f7e1-4bdd-a0b6-9d2860155869" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager/mex" />
     <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="25aece71-80cd-41ab-b268-36363f7cbe29" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager/mex" />
-    <MetadataFile FileName="sqmgr_wcf_svc.xsd" MetadataType="Schema" ID="f8a352c6-0d4b-4dc8-8af6-021a7b37cc54" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager/mex" />
+    <MetadataFile FileName="SquidManager.xsd" MetadataType="Schema" ID="e4ca342f-f987-4e48-b788-a109b42a502a" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager/mex" />
     <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="8a453e95-51ce-4d97-83b6-d44a359680fe" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager/mex" />
   </Metadata>
   <Extensions>

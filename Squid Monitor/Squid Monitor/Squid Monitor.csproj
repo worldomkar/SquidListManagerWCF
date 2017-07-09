@@ -100,10 +100,10 @@
     <None Include="Service References\SquidManager\service1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\SquidManager\sqmgr_wcf_svc.xsd">
+    <None Include="Service References\SquidManager\SquidManager.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\SquidManager\Squid_Monitor.SquidManager.DList.datasource">
+    <None Include="Service References\SquidManager\Squid_Monitor.SquidManager.DomainsList.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
   </ItemGroup>
