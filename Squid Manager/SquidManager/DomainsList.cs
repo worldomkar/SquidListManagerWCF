@@ -168,7 +168,7 @@ namespace SquidManager
         /// <param name="domain">Domain name</param>
         public void AddDomain(string domain)
         {
-            if (this.sections.Count != 0)
+            if (this.sections.Count == 0)
             {
                 this.sections.Add(new Section());
                 this.sections[0].Name = "Global";

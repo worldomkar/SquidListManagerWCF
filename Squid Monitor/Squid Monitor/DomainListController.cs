@@ -46,7 +46,7 @@ namespace Squid_Monitor
         /// <param name="blockIgnore">Ignored domains List root node</param>
         /// <param name="newDomains">Newly detected List root node</param>
         /// <returns>Returns root node of created TreeNode list</returns>
-        public TreeNode LoadList(string listName, string listType, List<TreeNode> knownDomains, ref TreeNode blockTrust, ref TreeNode blockIgnore, ref TreeNode newDomains)
+        public TreeNode LoadList(string listName, string listType, List<TreeNode> knownDomains, List<TreeNode> knownNodes, ref TreeNode blockTrust, ref TreeNode blockIgnore, ref TreeNode newDomains)
         {
             SquidManager.DomainsList domainsList = null;
             switch (listType.ToLower())
@@ -62,7 +62,7 @@ namespace Squid_Monitor
                     break;
             }
 
-            TreeNode newRoot = this.ConstructTreeFromDlist(domainsList, knownDomains);
+            TreeNode newRoot = this.ConstructTreeFromDlist(domainsList, knownDomains, knownNodes);
             switch (listType.ToLower())
             {
                 case "trust":
@@ -73,7 +73,7 @@ namespace Squid_Monitor
                             n = newRoot.Nodes["Global"];
                         }
 
-                        n.Expand();
+                        n.Tag = true;
                         n = n.Nodes[0];
                         blockTrust = n;
                     }
@@ -84,7 +84,7 @@ namespace Squid_Monitor
                         TreeNode n = newRoot.Nodes["Global"];
                         if (n != null)
                         {
-                            n.Expand();
+                            n.Tag = true;
                             blockIgnore = n.Nodes[1];
                         }
                     }
@@ -93,8 +93,8 @@ namespace Squid_Monitor
                 case "new":
                     if (newRoot.Nodes.Count > 0)
                     {
-                        newRoot.Nodes[0].Expand();
-                        newRoot.Nodes[0].Nodes[1].Expand();
+                        newRoot.Nodes[0].Tag = true;
+                        newRoot.Nodes[0].Nodes[1].Tag = true;
                     }
 
                     newDomains = newRoot;
@@ -102,6 +102,7 @@ namespace Squid_Monitor
             }
 
             newRoot.Text = listName;
+            newRoot.Tag = true;
             return newRoot;
         }
 
@@ -121,9 +122,9 @@ namespace Squid_Monitor
         /// </summary>
         /// <param name="knownDomains">List of known domains</param>
         /// <returns>TreeNode hierarchy of new domains</returns>
-        public TreeNode GetNewDomains(List<TreeNode> knownDomains)
+        public TreeNode GetNewDomains(List<TreeNode> knownDomains, List<TreeNode> knownNodes)
         {
-            return this.ConstructTreeFromDlist(this.squidManager.GetNewDomains(), knownDomains);
+            return this.ConstructTreeFromDlist(this.squidManager.GetNewDomains(), knownDomains, knownNodes);
         }
 
         /// <summary>
@@ -144,12 +145,13 @@ namespace Squid_Monitor
         /// <param name="domainsList">List of domains</param>
         /// <param name="knownDomains">"Loaded list" of domains</param>
         /// <returns>TreeNode hierarchy containing domains list</returns>
-        private TreeNode ConstructTreeFromDlist(SquidManager.DomainsList domainsList, List<TreeNode> knownDomains)
+        private TreeNode ConstructTreeFromDlist(SquidManager.DomainsList domainsList, List<TreeNode> knownDomains, List<TreeNode> knownNodes)
         {
             if (domainsList != null)
             {
                 TreeNode newRoot = new TreeNode();
-                newRoot.Expand();
+                newRoot.Tag = true;
+                knownNodes.Add(newRoot);
                 if (domainsList.sections.Length == 0)
                 {
                     domainsList.sections = new Section[1];
@@ -186,6 +188,9 @@ namespace Squid_Monitor
                     section.Nodes.Add(active);
                     section.Nodes.Add(inactive);
                     newRoot.Nodes.Add(section);
+                    knownNodes.Add(active);
+                    knownNodes.Add(inactive);
+                    knownNodes.Add(section);
                 }
 
                 return newRoot;

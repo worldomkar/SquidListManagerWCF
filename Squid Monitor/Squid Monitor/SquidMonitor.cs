@@ -62,6 +62,11 @@ namespace Squid_Monitor
         private List<TreeNode> knownDomains = new List<TreeNode>();
 
         /// <summary>
+        /// Holds pointers to all nodes in the treeview
+        /// </summary>
+        private List<TreeNode> knownNodes = new List<TreeNode>();
+
+        /// <summary>
         /// Holds pointers to nodes that match search criteria
         /// </summary>
         private List<TreeNode> searchList = new List<TreeNode>();
@@ -103,7 +108,7 @@ namespace Squid_Monitor
         /// <param name="listType">Listname (trust/block) to pass dlc</param>
         private void LoadList(string listName, string listType)
         {
-            TreeNode newRoot = this.dlc.LoadList(listName, listType, this.knownDomains, ref this.blockTrust, ref this.blockIgnore, ref this.blockNew);
+            TreeNode newRoot = this.dlc.LoadList(listName, listType, this.knownDomains, this.knownNodes, ref this.blockTrust, ref this.blockIgnore, ref this.blockNew);
             treeView1.Invoke(new Add(treeView1.Nodes.Add), newRoot);
         }
 
@@ -117,6 +122,7 @@ namespace Squid_Monitor
             this.LoadList("Blocked Domains", "block");
             this.LoadList("New Domains", "new");
             this.loadCompleted = true;
+            ResetNodeExpansionState();
         }
 
         /// <summary>
@@ -246,10 +252,8 @@ namespace Squid_Monitor
         {
             try
             {
-                TreeNode newDomains = this.dlc.GetNewDomains(this.knownDomains);
+                TreeNode newDomains = this.dlc.GetNewDomains(this.knownDomains, this.knownNodes);
                 newDomains.Text = "New Domains";
-                newDomains.Nodes[0].Expand();
-                newDomains.Nodes[0].Nodes[1].Expand();
                 TreeNodeCollection blockNewNodes = newDomains.Nodes[0].Nodes[1].Nodes;
                 TreeNodeCollection treeViewNewNodes = treeView1.Nodes[2].Nodes[0].Nodes[1].Nodes;
 
@@ -265,6 +269,8 @@ namespace Squid_Monitor
                         this.knownDomains.Add(node);
                     }
                 }
+
+                ResetNodeExpansionState();
             }
             catch (Exception)
             {
@@ -301,6 +307,19 @@ namespace Squid_Monitor
                 }
             }
         }
+        
+        private void ResetNodeExpansionState()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(ResetNodeExpansionState));
+            }
+            else
+            {
+                this.knownNodes.Where(n => (n.Tag != null)).ToList().ForEach(n => n.Expand());
+                this.knownNodes.Where(n => (n.Tag == null)).ToList().ForEach(n => n.Collapse());
+            }
+        }
 
         /// <summary>
         /// Clear searchbox and set treenode expansion states to "initial" appearance
@@ -320,7 +339,7 @@ namespace Squid_Monitor
                     {
                         subList.Collapse();
                     }
-
+                    
                     if ((string.Compare(section.Text, "Miscelleneous", StringComparison.OrdinalIgnoreCase) != 0) &&
                         ((string.Compare(section.Text, "Global", StringComparison.OrdinalIgnoreCase) != 0) ||
                         section.Parent.Text.Contains("Trusted Domains")))
