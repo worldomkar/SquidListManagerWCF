@@ -25,5 +25,8 @@ namespace SquidManager
 
         [OperationContract]
         void ReloadLists();
+
+        [OperationContract]
+        void StopWorkers();
     }
 }

@@ -37,6 +37,8 @@ namespace SquidManager_Host
         {
             if (squidManagerHost != null)
             {
+                SquidManager.SquidManager serviceInstance = (SquidManager.SquidManager)squidManagerHost.SingletonInstance;
+                serviceInstance.StopWorkers();
                 squidManagerHost.Close();
             }
 
@@ -47,7 +49,8 @@ namespace SquidManager_Host
             catch
             {
                 Uri baseAddress = new Uri("http://127.0.0.1:5656/squid_manager/");
-                squidManagerHost = new ServiceHost(typeof(global::SquidManager.SquidManager), baseAddress);
+                squidManagerHost = new ServiceHost(new SquidManager.SquidManager(), baseAddress);
+                ////squidManagerHost = new ServiceHost(typeof(global::SquidManager.SquidManager), baseAddress);
             }
 
             try
@@ -83,6 +86,8 @@ namespace SquidManager_Host
             {
                 if (squidManagerHost != null)
                 {
+                    SquidManager.SquidManager serviceInstance = (SquidManager.SquidManager)squidManagerHost.SingletonInstance;
+                    serviceInstance.StopWorkers();
                     squidManagerHost.Close();
                     squidManagerHost = null;
                 }

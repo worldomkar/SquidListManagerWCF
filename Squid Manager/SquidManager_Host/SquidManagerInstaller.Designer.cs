@@ -62,8 +62,10 @@ namespace SquidManager
             this.serviceInstaller1.Description = "Squid Manager monitors squid log for unique domains and helps them categorize.";
             this.serviceInstaller1.DisplayName = "Squid Manager";
             this.serviceInstaller1.ServiceName = "SquidManager";
-            this.serviceInstaller1.ServicesDependedOn = new string[] {
-        ""};
+            this.serviceInstaller1.ServicesDependedOn = new string[]
+            {
+                string.Empty
+            };
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // SquidManagerInstaller

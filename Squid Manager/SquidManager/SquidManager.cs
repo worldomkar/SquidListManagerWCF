@@ -12,6 +12,7 @@ namespace SquidManager
     using System.ServiceModel;
     using System.Text.RegularExpressions;
     using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// SquidManager implements ISquidManager interface and exposes services
@@ -19,8 +20,6 @@ namespace SquidManager
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class SquidManager : ISquidManager
     {
-        // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in both code and config file together.
-    
         /// <summary>
         /// List of Trusted domains
         /// </summary>
@@ -42,17 +41,22 @@ namespace SquidManager
         private volatile bool isLoaded = false;
 
         /// <summary>
+        /// State flag to indicate Lists have been loaded from disk
+        /// </summary>
+        private volatile bool isExiting = false;
+
+        /// <summary>
         /// Log file monitor thread
         /// </summary>
-        private Thread monitor;
+        private Task<int> deniedLogMonitorTask = null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SquidManager"/> class.
         /// </summary>
         public SquidManager()
         {
-            this.monitor = new Thread(this.DeniedLogMonitorWorker);
-            this.monitor.Start();
+            this.LoadLists();
+            this.deniedLogMonitorTask = this.DeniedLogMonitorTask();
         }
 
         /// <summary>
@@ -69,55 +73,26 @@ namespace SquidManager
         }
 
         /// <summary>
-        /// SquidMonitor worker thread to monitor denied log for new domains
+        /// To be called by service host OnClose() to gracefully shutdown
         /// </summary>
-        public void DeniedLogMonitorWorker()
+        public void StopWorkers()
+        {
+            this.isExiting = true;
+            this.deniedLogMonitorTask.Dispose();
+        }
+
+        /// <summary>
+        /// To be called by self host to continue indefinite wait -- to prevent immediate exit
+        /// </summary>
+        public void WaitForWorkers()
         {
             try
             {
-                this.LoadLists();
-
-                FileStream streamOfAccessLog = new FileStream("c:\\squid\\var\\logs\\access.log", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                streamOfAccessLog.Seek(0, SeekOrigin.End);
-                StreamReader accessLog = new StreamReader(streamOfAccessLog);
-                string line, domain;
-                string[] tokens, hostname;
-                while (true)
-                {
-                    while ((line = accessLog.ReadLine()) != null)
-                    {
-                        // trim multiple contiguous whitespaces to single space
-                        line = Regex.Replace(line, @"\s+", " ");
-
-                        // read space separated tokens
-                        tokens = line.Split(' ');
-
-                        // filter for "CONNECT" tokens -- these are HTTPS and other tokens
-                        if ((tokens.Length > 6) && (tokens[5].CompareTo("CONNECT") == 0))
-                        {
-                            domain = tokens[6];
-                            hostname = domain.Split(':', ' ');
-                            if (hostname[0][0] != '.')
-                            {
-                                hostname[0] = "." + hostname[0];
-                            }
-
-                            if (!this.IsKnown(hostname[0]))
-                            {
-                                if (!this.newDomains.IsKnown(hostname[0]))
-                                {
-                                    this.newDomains.AddDomain(hostname[0]);
-                                    ////Console.WriteLine("New domain: " + hostname[0]);
-                                }
-                            }
-                        }
-                    }
-
-                    Thread.Sleep(1000);
-                }
+                this.deniedLogMonitorTask.Wait();
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
             }
         }
 
@@ -191,6 +166,74 @@ namespace SquidManager
         public DomainsList GetBlockList()
         {
             return this.blockList;
+        }
+
+        /// <summary>
+        /// SquidMonitor async Task to monitor denied log for new domains
+        /// </summary>
+        /// <returns>Dummy integer value</returns>
+        private async Task<int> DeniedLogMonitorTask()
+        {
+            try
+            {
+                FileStream streamOfAccessLog = new FileStream("c:\\squid\\var\\logs\\access.log", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                streamOfAccessLog.Seek(0, SeekOrigin.End);
+                StreamReader accessLog = new StreamReader(streamOfAccessLog);
+                string line, domain;
+                string[] tokens, hostname;
+                while (!this.isExiting)
+                {
+                    try
+                    {
+                        while ((line = await accessLog.ReadLineAsync()) != null)
+                        {
+                            // trim multiple contiguous whitespaces to single space
+                            line = Regex.Replace(line, @"\s+", " ");
+
+                            // read space separated tokens
+                            tokens = line.Split(' ');
+
+                            // filter for "CONNECT" tokens -- these are HTTPS and other tokens
+                            // filter "GET" as well
+                            if ((tokens.Length > 6) && ((tokens[5].CompareTo("CONNECT") == 0) || (tokens[5].CompareTo("GET") == 0)))
+                            {
+                                domain = tokens[6];
+                                if (domain.StartsWith("http://"))
+                                {
+                                    domain = domain.Remove(0, 7);
+                                    while (domain.Contains("/"))
+                                    {
+                                        domain = domain.Substring(0, domain.LastIndexOf('/'));
+                                    }
+                                }
+
+                                hostname = domain.Split(':', ' ');
+                                if (hostname[0][0] != '.')
+                                {
+                                    hostname[0] = "." + hostname[0];
+                                }
+
+                                if (!this.IsKnown(hostname[0]))
+                                {
+                                    if (!this.newDomains.IsKnown(hostname[0]))
+                                    {
+                                        this.newDomains.AddDomain(hostname[0]);
+                                        ////Console.WriteLine("New domain: " + hostname[0]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+            }
+
+            return 0;
         }
 
         /// <summary>

@@ -316,8 +316,8 @@ namespace Squid_Monitor
             }
             else
             {
-                this.knownNodes.Where(n => (n.Tag != null)).ToList().ForEach(n => n.Expand());
-                this.knownNodes.Where(n => (n.Tag == null)).ToList().ForEach(n => n.Collapse());
+                this.knownNodes.Where(n => (n.Tag != null)).ToList().ForEach(n => { if (!n.IsExpanded) n.Expand(); });
+                this.knownNodes.Where(n => (n.Tag == null)).ToList().ForEach(n => { if (n.IsExpanded) n.Collapse(); });
             }
         }
 

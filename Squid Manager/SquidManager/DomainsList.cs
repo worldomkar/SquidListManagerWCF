@@ -35,6 +35,9 @@ namespace SquidManager
         public DomainsList()
         {
             this.sections = new List<Section>();
+            Section globalSection = new Section();
+            globalSection.Name = "Global";
+            this.sections.Add(globalSection);
         }
 
         /// <summary>
@@ -82,7 +85,7 @@ namespace SquidManager
         /// one domain-name per line
         /// </summary>
         /// <param name="fileName">File name to load domains list from</param>
-        public void Load(string fileName)
+        public async void Load(string fileName)
         {
             FileStream streamOfDomains = null;
             string line;
@@ -94,36 +97,38 @@ namespace SquidManager
             {
                 streamOfDomains = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 this.fileName = fileName;
-                StreamReader domainsList = new StreamReader(streamOfDomains);
                 try
                 {
-                    while ((line = domainsList.ReadLine()) != null)
+                    using (StreamReader domainsList = new StreamReader(streamOfDomains))
                     {
-                        line.Trim();
-                        if (line.Length == 0)
+                        while ((line = await domainsList.ReadLineAsync()) != null)
                         {
-                            continue;
-                        }
-
-                        if (line.Substring(0, 5) == "#####")
-                        {
-                            if ((s.ActiveDomain.Count != 0) || (s.InactiveDomain.Count != 0))
+                            line.Trim();
+                            if (line.Length == 0)
                             {
-                                s = new Section();
-                                this.sections.Add(s);
+                                continue;
                             }
 
-                            s.Name = line.Substring(5).Trim();
-                        }
-                        else
-                        {
-                            if (line[0] == '#')
+                            if (line.Substring(0, 5) == "#####")
                             {
-                                s.InactiveDomain.Add(line.Substring(1).Trim());
+                                if ((s.ActiveDomain.Count != 0) || (s.InactiveDomain.Count != 0))
+                                {
+                                    s = new Section();
+                                    this.sections.Add(s);
+                                }
+
+                                s.Name = line.Substring(5).Trim();
                             }
                             else
                             {
-                                s.ActiveDomain.Add(line);
+                                if (line[0] == '#')
+                                {
+                                    s.InactiveDomain.Add(line.Substring(1).Trim());
+                                }
+                                else
+                                {
+                                    s.ActiveDomain.Add(line);
+                                }
                             }
                         }
                     }
@@ -168,12 +173,6 @@ namespace SquidManager
         /// <param name="domain">Domain name</param>
         public void AddDomain(string domain)
         {
-            if (this.sections.Count == 0)
-            {
-                this.sections.Add(new Section());
-                this.sections[0].Name = "Global";
-            }
-
             this.sections[0].InactiveDomain.Add(domain);
         }
 
