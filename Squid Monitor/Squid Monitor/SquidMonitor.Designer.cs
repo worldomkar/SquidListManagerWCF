@@ -108,7 +108,7 @@ namespace Squid_Monitor
             this.ignoreAllNewToolStripMenuItem.Click += new System.EventHandler(this.IgnoreAllNewToolStripMenuItem_Click);
             // 
             // txtSearchBox
-            // 
+            //
             this.txtSearchBox.ForeColor = System.Drawing.Color.Gray;
             this.txtSearchBox.Location = new System.Drawing.Point(336, 4);
             this.txtSearchBox.Name = "txtSearchBox";

@@ -64,15 +64,7 @@ namespace SquidManager
         /// </summary>
         public void Reload()
         {
-            if (this.sections == null)
-            {
-                this.sections = new List<Section>();
-            }
-            else
-            {
-                this.sections.Clear();
-            }
-
+            this.sections.Clear();
             if (this.fileName != null)
             {
                 this.Load(this.fileName);

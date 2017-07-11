@@ -90,7 +90,6 @@ namespace Squid_Monitor
         {
             this.InitializeComponent();
             txtSearchBox.Text = this.placeholderText;
-            this.searchBoxTextColor = this.txtSearchBox.ForeColor;
         }
 
         /// <summary>
@@ -116,13 +115,13 @@ namespace Squid_Monitor
         /// Loads required three lists
         /// Currently "Ignored" list is "block"ed "inactive"
         /// </summary>
-        private void LoadListsAsync()
+        private void LazyLoadLists()
         {
             this.LoadList("Trusted Domains", "trust");
             this.LoadList("Blocked Domains", "block");
             this.LoadList("New Domains", "new");
             this.loadCompleted = true;
-            ResetNodeExpansionState();
+            this.ResetNodeExpansionState();
         }
 
         /// <summary>
@@ -132,7 +131,7 @@ namespace Squid_Monitor
         /// <param name="e">eventargs e</param>
         private void Form1_Load(object sender, EventArgs e)
         {
-            Thread loader = new Thread(this.LoadListsAsync);
+            Thread loader = new Thread(this.LazyLoadLists);
             loader.Start();
         }
 
@@ -162,7 +161,7 @@ namespace Squid_Monitor
                 Point pt = ((TreeView)sender).PointToClient(new Point(e.X, e.Y));
                 TreeNode section = ((TreeView)sender).GetNodeAt(pt);
                 TreeNode domain = (TreeNode)e.Data.GetData("System.Windows.Forms.TreeNode");
-                if ((section != domain) && IsSectionNode(section))
+                if ((section != domain) && this.IsSectionNode(section))
                 {
                     switch (section.Parent.Parent.Text.ToLower())
                     {
@@ -270,7 +269,7 @@ namespace Squid_Monitor
                     }
                 }
 
-                ResetNodeExpansionState();
+                this.ResetNodeExpansionState();
             }
             catch (Exception)
             {
@@ -308,16 +307,32 @@ namespace Squid_Monitor
             }
         }
         
+        /// <summary>
+        /// Resets expanded/collapsed state of nodes to initial setting
+        /// TreeNode.Tag is used to store a non-null (bool) value to indicate initially "expanded"
+        /// </summary>
         private void ResetNodeExpansionState()
         {
-            if (InvokeRequired)
+            if (this.InvokeRequired)
             {
-                Invoke(new MethodInvoker(ResetNodeExpansionState));
+                this.Invoke(new MethodInvoker(this.ResetNodeExpansionState));
             }
             else
             {
-                this.knownNodes.Where(n => (n.Tag != null)).ToList().ForEach(n => { if (!n.IsExpanded) n.Expand(); });
-                this.knownNodes.Where(n => (n.Tag == null)).ToList().ForEach(n => { if (n.IsExpanded) n.Collapse(); });
+                this.knownNodes.Where(n => (n.Tag != null)).ToList().ForEach(n =>
+                {
+                    if (!n.IsExpanded)
+                    {
+                        n.Expand();
+                    }
+                });
+                this.knownNodes.Where(n => (n.Tag == null)).ToList().ForEach(n =>
+                {
+                    if (n.IsExpanded)
+                    {
+                        n.Collapse();
+                    }
+                });
             }
         }
 

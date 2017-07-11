@@ -42,6 +42,7 @@ namespace Squid_Monitor
         /// <param name="listName">Name of a domain list</param>
         /// <param name="listType">Type of a domain list</param>
         /// <param name="knownDomains">List of "Loaded" domains</param>
+        /// <param name="knownNodes">List of "Listname", "Section" and "sub-section" nodes</param>
         /// <param name="blockTrust">Trusted domains List root node</param>
         /// <param name="blockIgnore">Ignored domains List root node</param>
         /// <param name="newDomains">Newly detected List root node</param>
@@ -121,6 +122,7 @@ namespace Squid_Monitor
         /// Also, it is guarenteed that the domains are not subdomain of a domain in Trust or Block list
         /// </summary>
         /// <param name="knownDomains">List of known domains</param>
+        /// <param name="knownNodes">List of "Listname", "Section" and "sub-section" nodes</param>
         /// <returns>TreeNode hierarchy of new domains</returns>
         public TreeNode GetNewDomains(List<TreeNode> knownDomains, List<TreeNode> knownNodes)
         {
@@ -144,6 +146,7 @@ namespace Squid_Monitor
         /// </summary>
         /// <param name="domainsList">List of domains</param>
         /// <param name="knownDomains">"Loaded list" of domains</param>
+        /// <param name="knownNodes">List of "Listname", "Section" and "sub-section" nodes</param>
         /// <returns>TreeNode hierarchy containing domains list</returns>
         private TreeNode ConstructTreeFromDlist(SquidManager.DomainsList domainsList, List<TreeNode> knownDomains, List<TreeNode> knownNodes)
         {
