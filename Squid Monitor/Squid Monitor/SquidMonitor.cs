@@ -344,6 +344,7 @@ namespace Squid_Monitor
         private void BtnClearSearch_Click(object sender, EventArgs e)
         {
             txtSearchBox.Clear();
+            txtSearchBox.Text = this.placeholderText;
             this.focusedNode = 0;
             this.txtSearchChanged = true;
             foreach (TreeNode list in treeView1.Nodes)
