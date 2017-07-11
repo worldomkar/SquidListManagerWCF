@@ -227,6 +227,8 @@ namespace SquidManager
                     catch (Exception e)
                     {
                     }
+
+                    Thread.Sleep(1000);
                 }
             }
             catch (Exception e)
