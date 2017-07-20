@@ -9,6 +9,7 @@ namespace Squid_Monitor
     using System;
     using System.Collections.Generic;
     using System.ServiceModel;
+    using System.Threading;
     using System.Windows.Forms;
     using SquidManager;
 
@@ -22,6 +23,11 @@ namespace Squid_Monitor
         /// Client of WCF service
         /// </summary>
         private SquidManagerClient squidManager = null;
+
+        /// <summary>
+        /// Used to determine actual connected state of the WCF channel
+        /// </summary>
+        private bool connected = false;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="DomainListController"/> class
@@ -51,18 +57,33 @@ namespace Squid_Monitor
         public TreeNode LoadList(string listName, string listType, List<TreeNode> knownDomains, List<TreeNode> knownNodes, ref TreeNode blockTrust, ref TreeNode blockIgnore, ref TreeNode newDomains)
         {
             SquidManager.DomainsList domainsList = null;
-            switch (listType.ToLower())
+
+            do
             {
-                case "trust":
-                    domainsList = this.squidManager.GetTrustList();
-                    break;
-                case "block":
-                    domainsList = this.squidManager.GetBlockList();
-                    break;
-                case "new":
-                    domainsList = this.squidManager.GetNewDomains();
-                    break;
+                try
+                {
+                    switch (listType.ToLower())
+                    {
+                        case "trust":
+                            domainsList = this.squidManager.GetTrustList();
+                            break;
+                        case "block":
+                            domainsList = this.squidManager.GetBlockList();
+                            break;
+                        case "new":
+                            domainsList = this.squidManager.GetNewDomains();
+                            break;
+                    }
+
+                    this.connected = true;
+                }
+                catch (Exception)
+                {
+                    this.connected = false;
+                    Thread.Sleep(300);
+                }
             }
+            while (!this.connected);
 
             TreeNode newRoot = this.ConstructTreeFromDlist(domainsList, knownDomains, knownNodes);
             switch (listType.ToLower())

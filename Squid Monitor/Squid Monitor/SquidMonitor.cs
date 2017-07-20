@@ -47,6 +47,11 @@ namespace Squid_Monitor
         private TreeNode blockNew = null;
 
         /// <summary>
+        /// Separate thread to lazy load domain lists OR wait for service connection
+        /// </summary>
+        private Thread lazyLoader = null;
+
+        /// <summary>
         /// Contains "load" state of lists
         /// </summary>
         private bool loadCompleted = false;
@@ -121,6 +126,14 @@ namespace Squid_Monitor
             this.LoadList("Blocked Domains", "block");
             this.LoadList("New Domains", "new");
             this.loadCompleted = true;
+            this.Invoke((MethodInvoker)delegate
+            {
+                this.connectingMessage.Visible = false;
+                this.Text = "Squid Manager - Live";
+                this.menuStrip1.Enabled = true;
+                this.txtSearchBox.Enabled = true;
+                this.btnClearSearch.Enabled = true;
+            });
             this.ResetNodeExpansionState();
         }
 
@@ -129,10 +142,23 @@ namespace Squid_Monitor
         /// </summary>
         /// <param name="sender">object sender</param>
         /// <param name="e">eventargs e</param>
-        private void Form1_Load(object sender, EventArgs e)
+        private void SquidMonitor_Load(object sender, EventArgs e)
         {
-            Thread loader = new Thread(this.LazyLoadLists);
-            loader.Start();
+            this.lazyLoader = new Thread(this.LazyLoadLists);
+            this.lazyLoader.Start();
+        }
+
+        /// <summary>
+        /// Abort lazyLoader if in waiting state to help graceful exit
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">formclosedeventargs e</param>
+        private void SquidMonitor_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (this.lazyLoader.ThreadState != ThreadState.Stopped)
+            {
+                this.lazyLoader.Abort();
+            }
         }
 
         /// <summary>
@@ -229,7 +255,7 @@ namespace Squid_Monitor
         /// </summary>
         /// <param name="sender">object sender</param>
         /// <param name="e">eventargs e</param>
-        private void Form1_ResizeEnd(object sender, EventArgs e)
+        private void SquidMonitor_ResizeEnd(object sender, EventArgs e)
         {
             this.ResizeTreeView();
         }
@@ -573,6 +599,6 @@ namespace Squid_Monitor
                 txtSearchBox.Text = this.placeholderText;
             }
         }
-#endregion
+        #endregion
     }
 }

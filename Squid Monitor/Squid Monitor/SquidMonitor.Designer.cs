@@ -55,6 +55,7 @@ namespace Squid_Monitor
             this.ignoreAllNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txtSearchBox = new System.Windows.Forms.TextBox();
             this.btnClearSearch = new System.Windows.Forms.Button();
+            this.connectingMessage = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,6 +74,7 @@ namespace Squid_Monitor
             // 
             // menuStrip1
             // 
+            this.menuStrip1.Enabled = false;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.reloadToolStripMenuItem,
             this.reloadNewDomainsToolStripMenuItem,
@@ -108,7 +110,8 @@ namespace Squid_Monitor
             this.ignoreAllNewToolStripMenuItem.Click += new System.EventHandler(this.IgnoreAllNewToolStripMenuItem_Click);
             // 
             // txtSearchBox
-            //
+            // 
+            this.txtSearchBox.Enabled = false;
             this.txtSearchBox.ForeColor = System.Drawing.Color.Gray;
             this.txtSearchBox.Location = new System.Drawing.Point(336, 4);
             this.txtSearchBox.Name = "txtSearchBox";
@@ -121,6 +124,7 @@ namespace Squid_Monitor
             // 
             // btnClearSearch
             // 
+            this.btnClearSearch.Enabled = false;
             this.btnClearSearch.Location = new System.Drawing.Point(483, 4);
             this.btnClearSearch.Name = "btnClearSearch";
             this.btnClearSearch.Size = new System.Drawing.Size(32, 20);
@@ -129,11 +133,23 @@ namespace Squid_Monitor
             this.btnClearSearch.UseVisualStyleBackColor = true;
             this.btnClearSearch.Click += new System.EventHandler(this.BtnClearSearch_Click);
             // 
+            // connectingMessage
+            // 
+            this.connectingMessage.AutoSize = true;
+            this.connectingMessage.BackColor = System.Drawing.SystemColors.Window;
+            this.connectingMessage.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.connectingMessage.Location = new System.Drawing.Point(80, 135);
+            this.connectingMessage.Name = "connectingMessage";
+            this.connectingMessage.Size = new System.Drawing.Size(355, 29);
+            this.connectingMessage.TabIndex = 4;
+            this.connectingMessage.Text = "Waiting for SquidManager service..";
+            // 
             // SquidMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(515, 705);
+            this.Controls.Add(this.connectingMessage);
             this.Controls.Add(this.btnClearSearch);
             this.Controls.Add(this.txtSearchBox);
             this.Controls.Add(this.treeView1);
@@ -141,11 +157,12 @@ namespace Squid_Monitor
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "SquidMonitor";
-            this.Text = "Squid Manager - Live";
+            this.Text = "Squid Manager - Connecting";
             this.Activated += new System.EventHandler(this.SquidMonitor_Activated);
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.ResizeEnd += new System.EventHandler(this.Form1_ResizeEnd);
-            this.Resize += new System.EventHandler(this.Form1_ResizeEnd);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SquidMonitor_FormClosed);
+            this.Load += new System.EventHandler(this.SquidMonitor_Load);
+            this.ResizeEnd += new System.EventHandler(this.SquidMonitor_ResizeEnd);
+            this.Resize += new System.EventHandler(this.SquidMonitor_ResizeEnd);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -154,5 +171,7 @@ namespace Squid_Monitor
         }
 
         #endregion
+
+        private System.Windows.Forms.Label connectingMessage;
     }
 }
