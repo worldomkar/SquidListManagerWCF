@@ -53,7 +53,7 @@ Simple dragging domain name to active/inactive section of a list reflects immedi
 
 ![Squid Monitor](/Screenshots/SquidMonitor_WaitingToConnect.png)
 
-2. Load complete
+2. Loads lists as soon as WCF service is up -- no need to relaunch the application
 
 ![Squid Monitor](/Screenshots/SquidMonitor_InAction.png)
 
