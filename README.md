@@ -48,5 +48,15 @@ Squid Manager WCF service hosted inside windows service host
 
 Squid Monitor Windows Forms simple desktop application
 Simple dragging domain name to active/inactive section of a list reflects immediately on the text files and reconfigures squid to load these changes.
+
+1. Lazy loading with wait for service
+
+![Squid Monitor](/Screenshots/SquidMonitor_WaitingToConnect.png)
+
+2. Load complete
+
 ![Squid Monitor](/Screenshots/SquidMonitor_InAction.png)
+
+3. Reviewing domain list
+
 ![Squid Monitor](/Screenshots/SquidMonitor_InAction2.png)
