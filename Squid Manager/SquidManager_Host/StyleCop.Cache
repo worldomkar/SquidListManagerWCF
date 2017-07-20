@@ -820,11 +820,14 @@
     </timestamps>
     <violations />
   </sourcecode>
+  <project key="2091863715">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
   <sourcecode name="SquidManager_Host.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2017/07/07 16:54:08.154</styleCop>
       <settingsFile>2017/07/07 16:54:08.097</settingsFile>
-      <sourceFile>2017/07/11 23:02:37.930</sourceFile>
+      <sourceFile>2017/07/20 19:24:58.016</sourceFile>
       <parser>2017/07/07 16:54:08.154</parser>
       <StyleCop.CSharp.DocumentationRules>2017/07/07 16:54:08.154</StyleCop.CSharp.DocumentationRules>
       <StyleCop.CSharp.DocumentationRules.FilesHashCode>0</StyleCop.CSharp.DocumentationRules.FilesHashCode>
@@ -843,7 +846,4 @@
     </timestamps>
     <violations />
   </sourcecode>
-  <project key="2091863715">
-    <configuration>DEBUG;TRACE</configuration>
-  </project>
 </stylecopresultscache>

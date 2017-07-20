@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="36b25caf-fad0-44aa-8364-4656c32d7fb9" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="82399f7e-0f9b-41a8-9026-2bb6f8b9def2" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,14 +19,15 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://127.0.0.1:5656/squid_manager/mex" Protocol="mex" SourceId="1" />
+    <MetadataSource Address="http://127.0.0.1:5656/squid_manager" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="df8a8e0e-412e-4d38-aac7-b31278ce5284" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="1a7fef74-f7e1-4bdd-a0b6-9d2860155869" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="25aece71-80cd-41ab-b268-36363f7cbe29" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager/mex" />
-    <MetadataFile FileName="SquidManager.xsd" MetadataType="Schema" ID="e4ca342f-f987-4e48-b788-a109b42a502a" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager/mex" />
-    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="8a453e95-51ce-4d97-83b6-d44a359680fe" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager/mex" />
+    <MetadataFile FileName="SquidManager.wsdl" MetadataType="Wsdl" ID="dd5f3d72-f051-447f-ae7f-d1de0da9b127" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager?wsdl" />
+    <MetadataFile FileName="squid_manager.xsd" MetadataType="Schema" ID="007365ca-968b-4999-b3d2-29306fbc4e59" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager?xsd=xsd0" />
+    <MetadataFile FileName="squid_manager.disco" MetadataType="Disco" ID="57439f06-6694-4ea3-b6a4-93e7a341f945" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager?disco" />
+    <MetadataFile FileName="squid_manager1.xsd" MetadataType="Schema" ID="f74c4080-06a4-43c4-8d27-c370ae857603" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager?xsd=xsd3" />
+    <MetadataFile FileName="squid_manager2.xsd" MetadataType="Schema" ID="e25e1140-a458-412a-a82d-2c11dbae747c" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager?xsd=xsd1" />
+    <MetadataFile FileName="squid_manager3.xsd" MetadataType="Schema" ID="d4218fa8-6433-483d-b4ad-737189d7de03" SourceId="1" SourceUrl="http://127.0.0.1:5656/squid_manager?xsd=xsd2" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

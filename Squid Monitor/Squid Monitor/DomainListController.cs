@@ -8,6 +8,7 @@ namespace Squid_Monitor
 {
     using System;
     using System.Collections.Generic;
+    using System.ServiceModel;
     using System.Windows.Forms;
     using SquidManager;
 
@@ -29,7 +30,7 @@ namespace Squid_Monitor
         {
             try
             {
-                this.squidManager = new SquidManager.SquidManagerClient();
+                this.squidManager = new SquidManager.SquidManagerClient("BasicHTTP");
             }
             catch (Exception)
             {

@@ -30,6 +30,11 @@ namespace SquidManager
         private string fileName;
 
         /// <summary>
+        /// Write-synchronization for Save functionality
+        /// </summary>
+        private object saveLock = new object();
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="DomainsList"/> class.
         /// </summary>
         public DomainsList()
@@ -199,22 +204,25 @@ namespace SquidManager
                     return;
                 }
 
-                Section s = this.sections.Find(x => x.Name == sectionName);
-                if (s == null)
+                lock (this.sections)
                 {
-                    s = new Section();
-                    s.Name = sectionName;
-                    this.sections.Add(s);
-                }
+                    Section s = this.sections.Find(x => x.Name == sectionName);
+                    if (s == null)
+                    {
+                        s = new Section();
+                        s.Name = sectionName;
+                        this.sections.Add(s);
+                    }
 
-                switch (activeInactive.ToLower())
-                {
-                    case "active":
-                        s.ActiveDomain.Add(domain);
-                        break;
-                    case "inactive":
-                        s.InactiveDomain.Add(domain);
-                        break;
+                    switch (activeInactive.ToLower())
+                    {
+                        case "active":
+                            s.ActiveDomain.Add(domain);
+                            break;
+                        case "inactive":
+                            s.InactiveDomain.Add(domain);
+                            break;
+                    }
                 }
 
                 this.Save();
@@ -267,27 +275,30 @@ namespace SquidManager
         /// </summary>
         private void Save()
         {
-            FileStream streamOfDomains = new FileStream(this.fileName, FileMode.Open, FileAccess.Write, FileShare.ReadWrite);
-            StreamWriter domainsList = new StreamWriter(streamOfDomains);
-            foreach (Section s in this.sections)
+            lock (this.saveLock)
             {
-                domainsList.WriteLine("##### " + s.Name);
-                foreach (string domain in s.ActiveDomain)
+                FileStream streamOfDomains = new FileStream(this.fileName, FileMode.Open, FileAccess.Write, FileShare.ReadWrite);
+                StreamWriter domainsList = new StreamWriter(streamOfDomains);
+                foreach (Section s in this.sections)
                 {
-                    domainsList.WriteLine(domain);
+                    domainsList.WriteLine("##### " + s.Name);
+                    foreach (string domain in s.ActiveDomain)
+                    {
+                        domainsList.WriteLine(domain);
+                    }
+
+                    foreach (string domain in s.InactiveDomain)
+                    {
+                        string d = "#" + domain;
+                        domainsList.WriteLine(d);
+                    }
+
+                    domainsList.WriteLine(string.Empty);
                 }
 
-                foreach (string domain in s.InactiveDomain)
-                {
-                    string d = "#" + domain;
-                    domainsList.WriteLine(d);
-                }
-
-                domainsList.WriteLine(string.Empty);
+                domainsList.Flush();
+                domainsList.Close();
             }
-
-            domainsList.Flush();
-            domainsList.Close();
         }
     }
 }

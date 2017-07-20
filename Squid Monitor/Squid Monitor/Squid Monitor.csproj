@@ -35,6 +35,25 @@
     <ApplicationIcon>SquidMonitor_logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit3TestAdapter.3.2.0\lib\Mono.Cecil.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="nunit.engine, Version=3.2.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit3TestAdapter.3.2.0\lib\nunit.engine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="nunit.engine.api, Version=3.0.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit3TestAdapter.3.2.0\lib\nunit.engine.api.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.2.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.2.0\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="NUnit3.TestAdapter, Version=3.2.0.0, Culture=neutral, PublicKeyToken=4cb40d35494691ac, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit3TestAdapter.3.2.0\lib\NUnit3.TestAdapter.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.EnterpriseServices" />
@@ -53,6 +72,11 @@
   <ItemGroup>
     <Compile Include="DomainListController.cs" />
     <Compile Include="DomainNode.cs" />
+    <Compile Include="Service References\SquidManager\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="SquidMonitor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,11 +87,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
-    </Compile>
-    <Compile Include="Service References\SquidManager\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <EmbeddedResource Include="SquidMonitor.resx">
       <DependentUpon>SquidMonitor.cs</DependentUpon>
@@ -81,6 +100,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -90,17 +110,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Service References\SquidManager\Arrays.xsd">
+    <None Include="Service References\SquidManager\SquidManager.wsdl" />
+    <None Include="Service References\SquidManager\squid_manager.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\SquidManager\service.wsdl" />
-    <None Include="Service References\SquidManager\service.xsd">
+    <None Include="Service References\SquidManager\squid_manager1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\SquidManager\service1.xsd">
+    <None Include="Service References\SquidManager\squid_manager2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\SquidManager\SquidManager.xsd">
+    <None Include="Service References\SquidManager\squid_manager3.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\SquidManager\Squid_Monitor.SquidManager.DomainsList.datasource">
@@ -116,22 +136,17 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\SquidManager\" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="Service References\SquidManager\squid_manager.disco" />
     <None Include="Service References\SquidManager\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Service References\SquidManager\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Service References\SquidManager\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="SquidMonitor_logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SquidMonitor_logo.ico" />
+    <WCFMetadataStorage Include="Service References\SquidManager\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -50,7 +50,6 @@ namespace SquidManager_Host
             {
                 Uri baseAddress = new Uri("http://127.0.0.1:5656/squid_manager/");
                 squidManagerHost = new ServiceHost(new SquidManager.SquidManager(), baseAddress);
-                ////squidManagerHost = new ServiceHost(typeof(global::SquidManager.SquidManager), baseAddress);
             }
 
             try

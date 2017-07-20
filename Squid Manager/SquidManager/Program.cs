@@ -22,8 +22,8 @@ namespace SquidManager
         public static void Main(string[] args)
         {
             SquidManager sm = new SquidManager();
-            Uri baseAddress = new Uri("http://127.0.0.1:5656/squid_manager/");
-            ServiceHost squidManagerHost = new ServiceHost(sm, baseAddress);
+            ////Uri baseAddress = new Uri("http://127.0.0.1:5656/squid_manager/");
+            ServiceHost squidManagerHost = new ServiceHost(sm); ////, baseAddress);
             squidManagerHost.Open();
             sm.WaitForWorkers();
             squidManagerHost.Close();

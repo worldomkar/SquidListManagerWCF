@@ -168,6 +168,12 @@ namespace Squid_Monitor.SquidManager {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISquidManager/ReloadLists", ReplyAction="http://tempuri.org/ISquidManager/ReloadListsResponse")]
         System.Threading.Tasks.Task ReloadListsAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISquidManager/StopWorkers", ReplyAction="http://tempuri.org/ISquidManager/StopWorkersResponse")]
+        void StopWorkers();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISquidManager/StopWorkers", ReplyAction="http://tempuri.org/ISquidManager/StopWorkersResponse")]
+        System.Threading.Tasks.Task StopWorkersAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -235,6 +241,14 @@ namespace Squid_Monitor.SquidManager {
         
         public System.Threading.Tasks.Task ReloadListsAsync() {
             return base.Channel.ReloadListsAsync();
+        }
+        
+        public void StopWorkers() {
+            base.Channel.StopWorkers();
+        }
+        
+        public System.Threading.Tasks.Task StopWorkersAsync() {
+            return base.Channel.StopWorkersAsync();
         }
     }
 }

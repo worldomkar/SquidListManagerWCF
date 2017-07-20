@@ -345,6 +345,7 @@ namespace Squid_Monitor
         {
             txtSearchBox.Clear();
             txtSearchBox.Text = this.placeholderText;
+            txtSearchBox.ForeColor = Color.Gray;
             this.focusedNode = 0;
             this.txtSearchChanged = true;
             foreach (TreeNode list in treeView1.Nodes)
