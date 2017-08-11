@@ -166,3 +166,13 @@ Squid Manager/SquidManager/obj/Debug/TempPE
 Squid Manager/SquidManager_Host/obj
 Squid Manager/SquidManager_Host/SquidManager_Host.csproj.user
 d.txt
+Squid Monitor/Squid Monitor/Service References/SquidManager/squid_manager.disco
+Squid Monitor/Squid Monitor/Service References/SquidManager/squid_manager.xsd
+Squid Monitor/Squid Monitor/Service References/SquidManager/squid_manager1.xsd
+Squid Monitor/Squid Monitor/Service References/SquidManager/squid_manager2.xsd
+Squid Monitor/Squid Monitor/Service References/SquidManager/squid_manager3.xsd
+Squid Monitor/Squid Monitor/bin/Debug/nunit.framework.dll
+Squid Monitor/Squid Monitor/bin/Debug/nunit.framework.xml
+Squid Monitor/Squid Monitor/packages.config
+Squid Monitor/Squid MonitorTests/
+Squid Monitor/packages/
