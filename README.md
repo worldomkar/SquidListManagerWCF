@@ -49,6 +49,10 @@ Squid Manager WCF service hosted inside windows service host
 Squid Monitor Windows Forms simple desktop application
 Simple dragging domain name to active/inactive section of a list reflects immediately on the text files and reconfigures squid to load these changes.
 
+If you get access denied on browser, just ALT-TAB to Squid Monitor desktop application and it'll (on-focus) reload new-domains that were denied of access. Press "+" to trust the new domain. ALT-TAB back to your browser and you shall now be able to access the website.
+
+Doing this trust/block is an intense process at first, but once set up with your commonly accessed websites, you may even forget Squid Monitor. Base domains list may be downloaded from [Domains List folder](/DomainLists).
+
 1. Lazy loading with wait for service
 
 ![Squid Monitor](/Screenshots/SquidMonitor_WaitingToConnect.png)
